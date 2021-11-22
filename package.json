@@ -1,0 +1,26 @@
+{
+  "name": "mean_learn",
+  "version": "1.0.0",
+  "description": "aprendiendo MEAN",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alan20omar/MEAN_learn.git"
+  },
+  "author": "Alan Omar Lozada Sánchez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alan20omar/MEAN_learn/issues"
+  },
+  "homepage": "https://github.com/alan20omar/MEAN_learn#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.13"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
