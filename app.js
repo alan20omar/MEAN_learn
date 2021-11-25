@@ -98,7 +98,20 @@ app.put('/tasklists/:tasklistid',(req, res) => {
 app.patch('/tasklists/:tasklistid',(req, res) => {
     TaskList.findOneAndUpdate({_id: req.params.tasklistid},{$set: req.body})
         .then((obUpdated) => {
-            res.status(201);
+            res.status(200);
+            res.send(obUpdated);
+        })
+        .catch((error) => {
+            res.status(500);
+            console.log(error);
+        });
+});
+
+// Delete a tasklist by id
+app.delete('/tasklists/:tasklistid', (req, res) => {
+    TaskList.findByIdAndDelete({ _id: req.params.tasklistid })
+        .then((obUpdated) => {
+            res.status(202);
             res.send(obUpdated);
         })
         .catch((error) => {
