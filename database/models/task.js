@@ -8,6 +8,7 @@ const TaskSchema = new mongoose.Schema({
     },
     _taskListId: {
         type: mongoose.Types.ObjectId,
+        ref: 'TaskList',
         required: true
     },
     completed: {
