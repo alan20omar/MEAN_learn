@@ -68,8 +68,7 @@ app.get('/tasklists/:tasklistid',(req, res) => {
 
 // Route or Endpoint for creating a TaskList
 app.post('/tasklists',(req, res) => {
-    console.log('hola post method', req.body)
-    let taskListObj = { 'title': req.body.title, 'name': req.body.name }
+    let taskListObj = { 'title': req.body.title }
     TaskList(taskListObj).save()
         .then((lists) => {
             res.status(201);
@@ -109,14 +108,23 @@ app.patch('/tasklists/:tasklistid',(req, res) => {
 
 // Delete a tasklist by id
 app.delete('/tasklists/:tasklistid', (req, res) => {
+    const deleteAllContainingTasks = (tasklistid) => {
+        Task.deleteMany({ _taskListId: tasklistid })
+            .then()
+            .catch((error) => {
+                console.log(error);
+            });
+    };
     TaskList.findByIdAndDelete({ _id: req.params.tasklistid })
-        .then((objdeleted) => {
+        .then((taskListDeleted) => {
+            deleteAllContainingTasks(req.params.tasklistid)
             res.status(202);
-            res.send(objdeleted);
+            res.send(taskListDeleted);
         })
         .catch((error) => {
             res.status(500);
             console.log(error);
+            res.send(error)
         });
 });
 
@@ -139,7 +147,7 @@ app.post('/tasklists/:tasklistid/tasks', (req, res) =>{
     let taskObject = {
         title: req.body.title,
         _taskListId: req.params.tasklistid,
-        commpleted: req.body.commpleted 
+        completed: req.body.completed 
     };
     Task(taskObject).save()
         .then((data) => {
