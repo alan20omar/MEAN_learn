@@ -50,6 +50,7 @@ app.get('/tasklists',(req, res) => {
         .catch((error) => {
             res.status(500);
             console.log(error);
+            res.send(error);
         });
 });
 // Get one Task List by id from a parameter on the url
@@ -63,6 +64,7 @@ app.get('/tasklists/:tasklistid',(req, res) => {
         .catch((error) => {
             res.status(500);
             console.log(error);
+            res.send(error);
         });
 });
 
@@ -76,7 +78,8 @@ app.post('/tasklists',(req, res) => {
         })
         .catch((error) => { 
             res.status(500);
-            console.log(error); 
+            console.log(error);
+            res.send(error);
         });
 })
 
@@ -90,6 +93,7 @@ app.put('/tasklists/:tasklistid',(req, res) => {
         .catch((error) => {
             res.status(500);
             console.log(error);
+            res.send(error);
         });
 });
 
@@ -103,6 +107,7 @@ app.patch('/tasklists/:tasklistid',(req, res) => {
         .catch((error) => {
             res.status(500);
             console.log(error);
+            res.send(error);
         });
 });
 
@@ -113,6 +118,7 @@ app.delete('/tasklists/:tasklistid', (req, res) => {
             .then()
             .catch((error) => {
                 console.log(error);
+                res.send(error);
             });
     };
     TaskList.findByIdAndDelete({ _id: req.params.tasklistid })
@@ -139,6 +145,7 @@ app.get('/tasklists/:tasklistid/tasks', (req, res) => {
         .catch((error) =>{
             res.status(500);
             console.log(error);
+            res.send(error);
         });
 });
 
@@ -156,7 +163,8 @@ app.post('/tasklists/:tasklistid/tasks', (req, res) =>{
         })
         .catch((error) => {
             res.status(500);
-            console.log(error)
+            console.log(error);
+            res.send(error);
         });
 });
 
@@ -170,6 +178,7 @@ app.get('/tasklists/:tasklistid/tasks/:taskid', (req, res) => {
         .catch((error) => {
             res.status(500);
             console.log(error);
+            res.send(error);
         });
 });
 
@@ -188,19 +197,29 @@ app.put('/tasklists/:tasklistid/tasks/:taskid', (req, res) => {
         .catch((error) => {
             res.status(500);
             console.log(error);
+            res.send(error);
         });
 });
 
 // Update 1 partial (completed) task for 1 tasklist http://localhost:3000/tasklists/:tasklist/tasks/:taskid
 app.patch('/tasklists/:tasklistid/tasks/:taskid', (req, res) => {
     Task.findOneAndUpdate({ _id: req.params.taskid, _taskListId: req.params.tasklistid }, {$set: req.body})
-        .then((obj) => {
-            res.status(200);
-            res.send(obj);
+        .then((oldObj) => {
+            Task.find({ _taskListId: req.params.tasklistid, _id: req.params.taskid })
+                .then((obj) => {
+                    res.status(200);
+                    res.send(obj[0]);
+                })
+                .catch((error) => {
+                    res.status(500);
+                    console.log(error);
+                    res.send(error);
+                });
         })
         .catch((error) => {
             res.status(500);
             console.log(error);
+            res.send(error);
         });
 });
 
@@ -214,6 +233,7 @@ app.delete('/tasklists/:tasklistid/tasks/:taskid', (req, res) => {
         .catch((error) => {
             res.status(500);
             console.log(error);
+            res.send(error);
         });
 });
 
