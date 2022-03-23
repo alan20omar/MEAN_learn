@@ -1,2 +1,2 @@
 # MEAN_learn
-Testeo de MEAN, backend and frontend
+Testeo de MEAN, backend.
